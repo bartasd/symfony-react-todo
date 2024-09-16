@@ -1,12 +1,39 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
+import React, { useContext } from "react";
+import ReactDOM from "react-dom/client";
+import { TodoContext, TodoContextWrapper } from "./contexts/TodoContext";
 
-// any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+function App() {
+  const { someNumber, setSomeNumber } = useContext(TodoContext);
 
-// start the Stimulus application
-import './bootstrap';
+  return (
+    <div>
+      <p>SOME VALUE: {someNumber}</p>
+      <div
+        onClick={() => setSomeNumber(someNumber + 5)}
+        style={{ cursor: "pointer", color: "blue" }}
+      >
+        INCREASE BY 5
+      </div>
+      <div
+        onClick={() => setSomeNumber(someNumber - 5)}
+        style={{ cursor: "pointer", color: "blue" }}
+      >
+        DECREASE BY 5
+      </div>
+      <div
+        onClick={() => setSomeNumber(0)}
+        style={{ cursor: "pointer", color: "red" }}
+      >
+        RESET
+      </div>
+    </div>
+  );
+}
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <TodoContextWrapper>
+      <App />
+    </TodoContextWrapper>
+  </React.StrictMode>
+);
