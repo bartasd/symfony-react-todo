@@ -40,70 +40,82 @@ function App() {
     setTodos((old) => old.filter((_, i) => i !== idx));
   }
 
+  function handleKeyPressAdd(e) {
+    if (e.key === "Enter") {
+      putTodo(e);
+    }
+  }
+
+  function handleKeyPressEdit(e) {
+    if (e.key === "Enter") {
+      handleEditTodo(e);
+    }
+  }
+
   return (
-    <form onSubmit={putTodo}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Task</TableCell>
-            <TableCell align="right">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Task</TableCell>
+          <TableCell align="right">Action</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>
+            <TextField
+              value={addTodo}
+              onChange={(e) => setAddTodo(e.target.value)}
+              label="New Task"
+              fullWidth
+              onKeyPress={handleKeyPressAdd}
+            />
+          </TableCell>
+          <TableCell align="right">
+            <IconButton onClick={putTodo}>
+              <AddIcon />
+            </IconButton>
+          </TableCell>
+        </TableRow>
+        {todos.map((todo, idx) => (
+          <TableRow key={`todo-${idx}`}>
             <TableCell>
-              <TextField
-                value={addTodo}
-                onChange={(e) => setAddTodo(e.target.value)}
-                label="New Task"
-                fullWidth
-              />
+              {editing === idx ? (
+                <TextField
+                  value={editTodo}
+                  onChange={(e) => setEditTodo(e.target.value)}
+                  fullWidth
+                  onKeyPress={handleKeyPressEdit}
+                />
+              ) : (
+                todo.name
+              )}
             </TableCell>
             <TableCell align="right">
-              <IconButton type="submit">
-                <AddIcon />
-              </IconButton>
+              {editing === idx ? (
+                <IconButton onClick={handleEditTodo}>
+                  <CheckIcon />
+                </IconButton>
+              ) : (
+                <>
+                  <IconButton
+                    onClick={() => {
+                      setEditTodo(todo.name);
+                      setEditing(idx);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => deleteTodo(idx)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </>
+              )}
             </TableCell>
           </TableRow>
-          {todos.map((todo, idx) => (
-            <TableRow key={`todo-${idx}`}>
-              <TableCell>
-                {editing === idx ? (
-                  <TextField
-                    value={editTodo}
-                    onChange={(e) => setEditTodo(e.target.value)}
-                    fullWidth
-                  />
-                ) : (
-                  todo.name
-                )}
-              </TableCell>
-              <TableCell align="right">
-                {editing === idx ? (
-                  <IconButton onClick={handleEditTodo}>
-                    <CheckIcon />
-                  </IconButton>
-                ) : (
-                  <>
-                    <IconButton
-                      onClick={() => {
-                        setEditTodo(todo.name);
-                        setEditing(idx);
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={() => deleteTodo(idx)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </form>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 const root = ReactDOM.createRoot(document.getElementById("root"));
