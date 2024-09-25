@@ -69,13 +69,11 @@ function App() {
             <TableRow key={`todo-${idx}`}>
               <TableCell>
                 {editing === idx ? (
-                  <form onSubmit={handleEditTodo}>
-                    <TextField
-                      value={editTodo}
-                      onChange={(e) => setEditTodo(e.target.value)}
-                      fullWidth
-                    />
-                  </form>
+                  <TextField
+                    value={editTodo}
+                    onChange={(e) => setEditTodo(e.target.value)}
+                    fullWidth
+                  />
                 ) : (
                   todo.name
                 )}
