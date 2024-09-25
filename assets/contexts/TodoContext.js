@@ -1,18 +1,18 @@
 import React, { createContext, useState } from "react";
 
 export const initialContext = {
-  someNumber: 0,
-  setSomeNumber: () => {},
+  todos: [{ name: "meh" }, { name: "muh" }],
+  setTodos: () => {},
 };
 
 export const TodoContext = createContext(initialContext);
 
 export function TodoContextWrapper(props) {
-  const [someNumber, setSomeNumber] = useState(initialContext.someNumber);
+  const [todos, setTodos] = useState(initialContext.todos);
 
   const value = {
-    someNumber,
-    setSomeNumber,
+    todos,
+    setTodos,
   };
 
   return (
