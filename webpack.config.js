@@ -17,10 +17,10 @@ Encore
   /*
    * ENTRY CONFIG
    *
-   * Each entry will result in one JavaScript file (e.g. app.js)
+   * Each entry will result in one JavaScript file (e.g. index.js)
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
-  .addEntry("app", "./assets/app.js")
+  .addEntry("app", "./assets/index.js")
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")
