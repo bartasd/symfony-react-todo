@@ -7,19 +7,22 @@ export const initialContext = {
   createTodo: () => {},
   deleteTodo: () => {},
   updateTodo: () => {},
+  message: "",
+  setMessage: () => {},
 };
 
 export const TodoContext = createContext(initialContext);
 
 export function TodoContextWrapper(props) {
   const [todos, setTodos] = useState(initialContext.todos);
+  const [message, setMessage] = useState("");
 
   const getTodos = async () => {
     try {
       const response = await axios.get("/api/todo/read");
       setTodos(response.data);
     } catch (error) {
-      console.error("Error fetching todos:", error);
+      setMessage(`Error:Error fetching todos.`);
     }
   };
 
@@ -35,8 +38,9 @@ export function TodoContextWrapper(props) {
         }
       );
       getTodos();
+      setMessage(`Message:${response.data.message}`);
     } catch (error) {
-      console.error("Error creating todo:", error);
+      setMessage(`Error:Something bad happened creating todo.`);
     }
   };
 
@@ -52,8 +56,9 @@ export function TodoContextWrapper(props) {
         }
       );
       getTodos();
+      setMessage(`Message:${response.data.message}`);
     } catch (error) {
-      console.error("Error deleting todo:", error);
+      setMessage(`Error:Something bad happened deleting todo.`);
     }
   };
 
@@ -69,8 +74,9 @@ export function TodoContextWrapper(props) {
         }
       );
       getTodos();
+      setMessage(`Message:${response.data.message}`);
     } catch (error) {
-      console.error("Error deleting todo:", error);
+      setMessage(`Error:Something bad happened updating todo.`);
     }
   };
 
@@ -84,6 +90,8 @@ export function TodoContextWrapper(props) {
     createTodo,
     deleteTodo,
     updateTodo,
+    message,
+    setMessage
   };
 
   return (

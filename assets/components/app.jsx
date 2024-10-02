@@ -10,7 +10,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteDialog from "./DeleteDialog";
 import { useApp } from "./useApp";
-import React from "react";
+import { toast, ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect } from "react";
 
 export default function App() {
   const {
@@ -31,7 +33,43 @@ export default function App() {
     editing,
     setEditing,
     setTodoToDelete,
+    message,
+    setMessage
   } = useApp();
+
+
+  useEffect(() => {
+
+    const [type, msg] = message.split(':');
+    if(type == "Message"){
+      toast.success(msg, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        });
+    }
+    else{
+      toast.error(msg, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+        });
+    }
+  }, [message]);
+
+
   return (
     <>
       <Table>
@@ -107,6 +145,19 @@ export default function App() {
         task={todos[todoToDelete]?.name}
         onCancel={cancelDeleteTodo}
         onConfirm={confirmDeleteTodo}
+      />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
       />
     </>
   );

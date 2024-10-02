@@ -7,7 +7,7 @@ import { useState, useContext } from "react";
 
 export const useApp = () => {
   const [editing, setEditing] = useState(-1);
-  const { todos, createTodo, deleteTodo, updateTodo } = useContext(TodoContext);
+  const { todos, createTodo, deleteTodo, updateTodo, message, setMessage } = useContext(TodoContext);
   const [addTodo, setAddTodo] = useState("");
   const [editTodo, setEditTodo] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -65,5 +65,7 @@ export const useApp = () => {
     editing,
     setEditing,
     setTodoToDelete,
+    message,
+    setMessage
   };
 };

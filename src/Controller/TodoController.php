@@ -16,7 +16,8 @@ class TodoController extends AbstractController
     private $entityManager;
     private $todoRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, TodoRepository $todoRepository){
+    public function __construct(EntityManagerInterface $entityManager, TodoRepository $todoRepository)
+    {
         $this->entityManager  = $entityManager;
         $this->todoRepository = $todoRepository;
     }
@@ -28,7 +29,7 @@ class TodoController extends AbstractController
 
         $arrOfTodos = [];
 
-        foreach($todos as $todo){
+        foreach ($todos as $todo) {
             $arrOfTodos[] = $todo->toArray();
         }
         return $this->json($arrOfTodos);
@@ -56,20 +57,20 @@ class TodoController extends AbstractController
     public function delete(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
-    
+
         if (!$content || !isset($content['id'])) {
             return $this->json(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
         }
-    
+
         $todo = $this->todoRepository->find($content['id']);
-    
+
         if (!$todo) {
             return $this->json(['error' => 'Todo not found'], Response::HTTP_NOT_FOUND);
         }
-    
+
         $this->entityManager->remove($todo);
         $this->entityManager->flush();
-    
+
         return $this->json(['message' => 'Todo deleted successfully'], Response::HTTP_OK);
     }
 
@@ -77,22 +78,21 @@ class TodoController extends AbstractController
     public function update(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
-    
+
         if (!$content || !isset($content['id']) || !isset($content['name'])) {
             return $this->json(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
         }
 
         $todo = $this->todoRepository->find($content['id']);
-    
+
         if (!$todo) {
             return $this->json(['error' => 'Todo not found'], Response::HTTP_NOT_FOUND);
         }
-    
+
         $todo->setName($content['name']);
-  
+
         $this->entityManager->flush();
-    
+
         return $this->json(['message' => 'Todo updated successfully'], Response::HTTP_OK);
     }
-    
 }
