@@ -61,7 +61,7 @@ export default function App() {
           {todos.map((todo, idx) => (
             <TableRow key={`todo-${idx}`}>
               <TableCell>
-                {editing === idx ? (
+                {editing === todo.id ? (
                   <TextField
                     value={editTodo}
                     onChange={(e) => setEditTodo(e.target.value)}
@@ -73,7 +73,7 @@ export default function App() {
                 )}
               </TableCell>
               <TableCell align="right">
-                {editing === idx ? (
+                {editing === todo.id ? (
                   <IconButton onClick={handleEditTodo}>
                     <CheckIcon />
                   </IconButton>
@@ -82,7 +82,7 @@ export default function App() {
                     <IconButton
                       onClick={() => {
                         setEditTodo(todo.name);
-                        setEditing(idx);
+                        setEditing(todo.id);
                       }}
                     >
                       <EditIcon />
@@ -90,7 +90,7 @@ export default function App() {
                     <IconButton
                       onClick={() => {
                         setIsDeleting(true);
-                        setTodoToDelete(idx);
+                        setTodoToDelete(todo.id);
                       }}
                     >
                       <DeleteIcon />

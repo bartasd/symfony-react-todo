@@ -7,7 +7,7 @@ import { useState, useContext } from "react";
 
 export const useApp = () => {
   const [editing, setEditing] = useState(-1);
-  const { todos, setTodos } = useContext(TodoContext);
+  const { todos, createTodo, deleteTodo, updateTodo } = useContext(TodoContext);
   const [addTodo, setAddTodo] = useState("");
   const [editTodo, setEditTodo] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -15,21 +15,19 @@ export const useApp = () => {
 
   function putTodo(event) {
     event.preventDefault();
-    setTodos((old) => [...old, { name: addTodo }]);
+    createTodo({ name: addTodo });
     setAddTodo("");
   }
 
   function handleEditTodo(event) {
     event.preventDefault();
-    setTodos((old) =>
-      old.map((e, i) => (i === editing ? { name: editTodo } : e))
-    );
+    updateTodo(editing, editTodo);
     setEditTodo("");
     setEditing(-1);
   }
 
   function confirmDeleteTodo() {
-    setTodos((old) => old.filter((_, i) => i !== todoToDelete));
+    deleteTodo(todoToDelete);
     cancelDeleteTodo();
   }
 
