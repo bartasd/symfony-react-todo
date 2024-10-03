@@ -89,6 +89,10 @@ class TodoController extends AbstractController
             return $this->json(['error' => 'Todo not found'], Response::HTTP_NOT_FOUND);
         }
 
+        if ($todo->getName() === $content['name']) {
+            return $this->json(['message' => 'No update made...'], Response::HTTP_OK);
+        }
+
         $todo->setName($content['name']);
 
         $this->entityManager->flush();
